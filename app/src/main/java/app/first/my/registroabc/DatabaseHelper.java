@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 
 import java.util.List;
 
+import app.first.my.registroabc.Data.Device;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "abcDB.db";
     public static final String TABLE_NAME = "persona";
@@ -42,6 +44,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+
+
+        String CREATE_DEVICE_TABLE = "CREATE TABLE Devices ( " +
+                "DeviceID INTEGER PRIMARY KEY , " +
+                "Name TEXT, "+
+                "Code TEXT, "+
+                "DeviceTypeID TEXT, "+
+                "Status INTEGER, " +
+                "UsesFormSelection INTEGER, " +
+                "UsesFormWithUbicheck INTEGER, " +
+                "UsesClientValidation INTEGER, " +
+                "UsesCreateBranch INTEGER, " +
+                "UsesUbicheckDetails INTEGER, " +
+                "UsesBiometric INTEGER, " +
+                "UsesKioskMode INTEGER, " +
+                "KioskBranchID INTEGER, " +
+                "ImageWareRegister INTEGER, " +
+                "BiometricID INTEGER, " +
+                "Account TEXT)";
+
+        String CREATE_BIOMETRICS_TABLE = "CREATE TABLE biometrics ( " +
+                "BiometricID INTEGER PRIMARY KEY , " +
+                "Name TEXT, " +
+                "LastConecction INTEGER)";
+
+        try {
+            sqLiteDatabase.execSQL(CREATE_DEVICE_TABLE);
+            sqLiteDatabase.execSQL(CREATE_BIOMETRICS_TABLE);
+
+        } catch (Exception e){
+
+        }
+
         sqLiteDatabase.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NOMBRE TEXT,APELLIDO TEXT)");
         //sqLiteDatabase.execSQL("create table " + TABLE2_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,FECHA TEXT,HORA TEXT,DESCRIPCION TEXT,AREA TEXT)");
         //sqLiteDatabase.execSQL("create table " + TABLE3_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,PERSONAID INTEGER,REGISTROID INTEGER,FOREIGN KEY (PERSONAID) REFERENCES persona(ID),FOREIGN KEY (REGISTROID) REFERENCES registro(ID))");
@@ -139,6 +174,82 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //Cursor res = sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE1_NAME+" where id is 1",null);
 
         return res;
+    }
+
+    public Device GetDevice() {
+        String query = "SELECT Name,Code,DeviceTypeID,DeviceID,Status,UsesFormSelection,UsesFormWithUbicheck,UsesClientValidation,UsesCreateBranch,UsesUbicheckDetails,UsesBiometric,UsesKioskMode,KioskBranchID,ImageWareRegister,BiometricID,Account FROM Devices";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Device Device = null;
+        if (cursor.moveToFirst()) {
+            do {
+                Device = new Device(cursor.getString(0),cursor.getString(1),cursor.getString(2),cursor.getInt(3),cursor.getInt(4),cursor.getInt(5),cursor.getInt(6),cursor.getInt(7),cursor.getInt(8),cursor.getInt(9),cursor.getInt(10),cursor.getInt(11),cursor.getInt(12),cursor.getInt(13),cursor.getInt(14),cursor.getString(15));
+            } while (cursor.moveToNext());
+        }
+        if(cursor != null){
+            cursor.close();
+        }
+        db.close();
+        return Device;
+    }
+
+    public void addDevice(Device Device){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Name", Device.Name);
+        values.put("Code", Device.Code);
+        values.put("DeviceID", Device.DeviceID);
+        values.put("Status", Device.Status);
+        values.put("DeviceTypeID", Device.DeviceTypeID);
+        values.put("UsesFormSelection", Device.UsesFormSelection);
+        values.put("UsesFormWithUbicheck", Device.UsesFormWithUbicheck);
+        values.put("UsesClientValidation", Device.UsesClientValidation);
+        values.put("UsesCreateBranch", Device.UsesCreateBranch);
+        values.put("UsesUbicheckDetails", Device.UsesUbicheckDetails);
+        values.put("UsesBiometric", Device.UsesBiometric);
+        values.put("UsesKioskMode", Device.UsesKioskMode);
+        values.put("KioskBranchID", Device.KioskBranchID);
+        values.put("ImageWareRegister", Device.ImageWareRegister);
+        values.put("BiometricID", Device.BiometricID);
+        values.put("Account", Device.Account);
+        db.insert("Devices",null,values);
+        db.close();
+    }
+
+    public int updateDevice(Device Device) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Name", Device.Name);
+        values.put("Code", Device.Code);
+        values.put("DeviceID", Device.DeviceID);
+        values.put("Status", Device.Status);
+        values.put("DeviceTypeID", Device.DeviceTypeID);
+        values.put("UsesFormSelection", Device.UsesFormSelection);
+        values.put("UsesFormWithUbicheck", Device.UsesFormWithUbicheck);
+        values.put("UsesClientValidation", Device.UsesClientValidation);
+        values.put("UsesCreateBranch", Device.UsesCreateBranch);
+        values.put("UsesUbicheckDetails", Device.UsesUbicheckDetails);
+        values.put("UsesBiometric", Device.UsesBiometric);
+        values.put("UsesKioskMode", Device.UsesKioskMode);
+        values.put("KioskBranchID", Device.KioskBranchID);
+        values.put("ImageWareRegister", Device.ImageWareRegister);
+        values.put("BiometricID", Device.BiometricID);
+        values.put("Account", Device.Account);
+        int i = db.update("Devices", values, "DeviceID"+" = ?",new String[] { String.valueOf(Device.DeviceID) });
+        db.close();
+        return i;
+    }
+
+    public void deleteDevice() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM Devices");
+        db.close();
+    }
+
+    public void deleteBiometrics() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM biometrics");
+        db.close();
     }
 
 
