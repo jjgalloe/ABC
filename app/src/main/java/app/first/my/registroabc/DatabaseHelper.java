@@ -16,6 +16,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PERSONA_ID = "ID";
     public static final String PERSONA_NOMBRE = "NOMBRE";
     public static final String PERSONA_APPELLIDO = "APELLIDO";
+    public static final String PERSONA_FECHADENAC = "FECHADENAC";
+    public static final String PERSONA_CODIGO = "CODIGO";
 
     /*public static final String TABLE2_NAME = "registro";
     public static final String REGISTRO_ID = "ID";
@@ -42,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NOMBRE TEXT,APELLIDO TEXT)");
+        sqLiteDatabase.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NOMBRE TEXT,APELLIDO TEXT,FECHADENAC DATE, CODIGO TEXT)");
         //sqLiteDatabase.execSQL("create table " + TABLE2_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,FECHA TEXT,HORA TEXT,DESCRIPCION TEXT,AREA TEXT)");
         //sqLiteDatabase.execSQL("create table " + TABLE3_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,PERSONAID INTEGER,REGISTROID INTEGER,FOREIGN KEY (PERSONAID) REFERENCES persona(ID),FOREIGN KEY (REGISTROID) REFERENCES registro(ID))");
         //sqLiteDatabase.execSQL("create table " + TABLE4_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NOMBRECURSO TEXT)");
@@ -97,7 +99,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(PERSONA_ID, "10");
         contentValues.put(PERSONA_NOMBRE, "J_nombre1");
         contentValues.put(PERSONA_APPELLIDO, "J_apellido1");
+        contentValues.put(PERSONA_FECHADENAC, "1988-08-13");
+        contentValues.put(PERSONA_CODIGO, "010420136411604017708132");
+        sqLiteDatabase.insert(TABLE_NAME, null,contentValues );
 
+        contentValues.put(PERSONA_ID, "11");
+        contentValues.put(PERSONA_NOMBRE, "José Joaquín");
+        contentValues.put(PERSONA_APPELLIDO, "Gallo");
+        contentValues.put(PERSONA_FECHADENAC, "1988-08-13");
+        contentValues.put(PERSONA_CODIGO, "010420136411604017708132");
         sqLiteDatabase.insert(TABLE_NAME, null,contentValues );
     }
 
