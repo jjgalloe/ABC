@@ -1,69 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="5">
 
+        <Button
+            android:id="@+id/btnShift"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_weight="5"
+            android:background="@android:color/holo_blue_light"
+            android:text="Shift"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/btnExtra"
-        android:layout_width="220dp"
-        android:layout_height="90dp"
-        android:layout_marginBottom="60dp"
-        android:layout_marginEnd="64dp"
-        android:background="#ff8000"
-        android:text="Horas Extra"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/btnSust"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_weight="5"
+            android:background="#FFC443"
+            android:text="Sustitución"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
 
-    <Button
-        android:id="@+id/btnShift"
-        android:layout_width="220dp"
-        android:layout_height="90dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/holo_blue_light"
-        android:text="Shift"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnCursos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.492" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnSust"
-        android:layout_width="220dp"
-        android:layout_height="90dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#FFC443"
-        android:text="Sustitución"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnExtra"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.363"
-        app:layout_constraintStart_toEndOf="@+id/btnShift"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.492" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_weight="5">
 
-    <Button
-        android:id="@+id/btnCursos"
-        android:layout_width="220dp"
-        android:layout_height="90dp"
-        android:layout_marginBottom="60dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="#55C2B7"
-        android:text="Cursos"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnExtra"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/btnCursos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="5"
+            android:background="#55C2B7"
+            android:text="Cursos"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/btnExtra"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="5"
+            android:background="#ff8000"
+            android:text="Horas Extra"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+</LinearLayout>
