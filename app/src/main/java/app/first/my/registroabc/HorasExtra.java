@@ -19,6 +19,7 @@ public class HorasExtra extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         goHorasExtraManuales();
+        goHorasExtra();
 
     }
 
@@ -26,6 +27,21 @@ public class HorasExtra extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    public void goHorasExtra(){
+
+        btnHoEx = (Button)findViewById(R.id.btnHoEx);
+        btnHoEx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent inHoEx = new Intent(HorasExtra.this, Scanner.class);
+                startActivity(inHoEx);
+                finish();
+            }
+        });
+
     }
 
     public void goHorasExtraManuales(){
