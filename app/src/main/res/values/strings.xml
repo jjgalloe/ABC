@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RegistroAbc</string>
+    <string name="title_device_register">Registrar Dispositivo</string>
+    <string name="device_name">Nombre</string>
+    <string name="device_code">Codigo</string>
+    <string name="device_register">Registrar</string>
+    <string name="device_terms">Acepto los <a href="http://ittformax.cloudapp.net/Home/License">Terminos y Condiciones</a></string>
 </resources>

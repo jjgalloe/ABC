@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="32dp"
+    android:layout_marginTop="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:orientation="vertical"
+    tools:context=".RegisterActivity">
+
+    <TextView
+        android:id="@+id/tv_register_device"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_device_register"
+        android:textAppearance="@style/textview_Text"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/et_device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/device_name"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/et_device_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/device_code" />
+
+
+    <CheckBox
+        android:id="@+id/checkTerms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/device_terms" />
+
+    <Button
+        android:id="@+id/btn_register_device"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/device_register" />
+</LinearLayout>
