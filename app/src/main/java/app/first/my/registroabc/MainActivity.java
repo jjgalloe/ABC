@@ -164,9 +164,7 @@ public class MainActivity extends AppCompatActivity {
                     //txtfooter.setText("Dispositivo en espera de autorizacion");
                     break;
                 case 2:
-                    if(!progress.isShowing()){
-                        Buttons(true);
-                    }
+                    Buttons(true);
                     break;
                 case 3:
                     //txtfooter.setText("Dispositivo rechazado");
@@ -315,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Buttons(boolean show){
-        Toast.makeText(MainActivity.this, "Botones", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "Botones", Toast.LENGTH_SHORT).show();
         Button btnShift = (Button) findViewById(R.id.btnShift);
         Button btnCursos = (Button) findViewById(R.id.btnCursos);
         Button btnSust = (Button) findViewById(R.id.btnSust);

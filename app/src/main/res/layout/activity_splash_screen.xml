@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_abc_logo"
         android:maxHeight="150dp"
         android:adjustViewBounds="true" />
 

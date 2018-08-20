@@ -37,6 +37,7 @@ public class Scanner extends AppCompatActivity {
     BarcodeDetector barcodeDetector;
     public String code;
     public String vName;
+    public int EmployeeID;
     DatabaseHelper myDb;
 
 
@@ -140,9 +141,9 @@ public class Scanner extends AppCompatActivity {
 
                 while (res.moveToNext() && flg == 0){
 
-
-                    persona = res.getString(2)+" "+res.getString(1);
-                    bcode = res.getString(4);
+                    EmployeeID = res.getInt(0);
+                    persona = res.getString(1);
+                    bcode = res.getString(2);
                     bday = res.getString(3);
 
                     if (value.equals(bcode)){
@@ -156,13 +157,13 @@ public class Scanner extends AppCompatActivity {
 
 
                 if(flg == 0){
-
+                    //Toast.makeText(Scanner.this, value, Toast.LENGTH_SHORT).show();
                     textView.post(new Runnable() {
                         @Override
                         public void run() {
                             Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(100);
-                            textView.setText("Su código de barras no se encuentra registrado.");
+                            textView.setText("Su código de barras no se encuentra registrado." + value);
 
 
                             //finish();
@@ -206,6 +207,7 @@ public class Scanner extends AppCompatActivity {
 
                             //TODO Clean intent code
                             Intent inEntSal = getIntent();
+                            inEntSal.putExtra("EmployeeID",EmployeeID);
                             inEntSal.putExtra("vName",vName);  // insert your extras here
                             setResult(Activity.RESULT_OK, inEntSal);
                             finish();

@@ -7,10 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import java.util.List;
 
 import app.first.my.registroabc.Data.Device;
+import app.first.my.registroabc.Data.Employee;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "abcDB.db";
@@ -20,6 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PERSONA_APPELLIDO = "APELLIDO";
     public static final String PERSONA_FECHADENAC = "FECHADENAC";
     public static final String PERSONA_CODIGO = "CODIGO";
+    public static final int DATABASE_VERSION = 1;
 
     /*public static final String TABLE2_NAME = "registro";
     public static final String REGISTRO_ID = "ID";
@@ -41,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -65,6 +68,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "BiometricID INTEGER, " +
                 "Account TEXT)";
 
+        String CREATE_EMPLOYEES_TABLE = "CREATE TABLE Employees ( " +
+                "EmployeeID INTEGER PRIMARY KEY , " +
+                "Name TEXT, "+
+                "BarCode TEXT, "+
+                "DOB TEXT)";
+
         String CREATE_BIOMETRICS_TABLE = "CREATE TABLE biometrics ( " +
                 "BiometricID INTEGER PRIMARY KEY , " +
                 "Name TEXT, " +
@@ -72,11 +81,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         try {
             sqLiteDatabase.execSQL(CREATE_DEVICE_TABLE);
+            sqLiteDatabase.execSQL(CREATE_EMPLOYEES_TABLE);
             sqLiteDatabase.execSQL(CREATE_BIOMETRICS_TABLE);
 
         } catch (Exception e){
+            String x = e.getMessage();
 
-        }
+        }/*
         sqLiteDatabase.execSQL("create table " + TABLE_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,NOMBRE TEXT,APELLIDO TEXT,FECHADENAC DATE, CODIGO TEXT)");
         //sqLiteDatabase.execSQL("create table " + TABLE2_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,FECHA TEXT,HORA TEXT,DESCRIPCION TEXT,AREA TEXT)");
         //sqLiteDatabase.execSQL("create table " + TABLE3_NAME +" (ID INTEGER PRIMARY KEY AUTOINCREMENT,PERSONAID INTEGER,REGISTROID INTEGER,FOREIGN KEY (PERSONAID) REFERENCES persona(ID),FOREIGN KEY (REGISTROID) REFERENCES registro(ID))");
@@ -141,18 +152,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(PERSONA_APPELLIDO, "Gallo");
         contentValues.put(PERSONA_FECHADENAC, "1988-08-13");
         contentValues.put(PERSONA_CODIGO, "010420136411604017708132");
-        sqLiteDatabase.insert(TABLE_NAME, null,contentValues );
+        sqLiteDatabase.insert(TABLE_NAME, null,contentValues );*/
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE2_NAME);
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE3_NAME);
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE4_NAME);
-        onCreate(sqLiteDatabase);
-
+        if (newVersion - oldVersion >= 1){
+            //db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME);
+            //db.execSQL("DROP TABLE IF EXISTS Devices");
+            //db.execSQL("DELETE FROM Employees");
+            this.onCreate(db);
+            //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE2_NAME);
+            //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE3_NAME);
+            //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS "+TABLE4_NAME);
+            //onCreate(db);
+        }
     }
 
     /*public boolean insertData(String name, String surname){
@@ -178,7 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //vletra = "a".;
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         //Cursor res = sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE_NAME+" WHERE substr("+PERSONA_APPELLIDO+",1,2)="+vletra,null);
-        Cursor res = sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE_NAME,null);
+        Cursor res = sqLiteDatabase.rawQuery("SELECT * FROM Employees",null);
         //Cursor res = sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE1_NAME+" where id is 1",null);
 
         return res;
@@ -224,6 +239,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void addEmployee(Employee Employee){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("EmployeeID", Employee.EmployeeID);
+        values.put("Name", Employee.Name);
+        values.put("BarCode", Employee.BarCode);
+        values.put("DOB", Employee.DOB);
+        db.insert("Employees",null,values);
+        db.close();
+    }
+
     public int updateDevice(Device Device) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -251,6 +277,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteDevice() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM Devices");
+        db.close();
+    }
+
+    public void deleteEmployees() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM Employees");
         db.close();
     }
 

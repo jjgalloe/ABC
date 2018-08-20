@@ -20,7 +20,9 @@ public class DialogMethods {
         }else{
             dialog.setPositiveButton("Ok",onClickListener);
         }
+
         if(!((Activity)context).isFinishing()){
+            //dialog.show();
             dialog.show();
         }
     }

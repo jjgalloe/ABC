@@ -14,13 +14,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
+
 import app.first.my.registroabc.Business.ConnectionMethods;
+import app.first.my.registroabc.Business.DialogMethods;
 import app.first.my.registroabc.Data.Device;
+import app.first.my.registroabc.Data.Employee;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -36,6 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
         txtSplashMessage = (TextView)findViewById(R.id.txtSplashMessage);
         myHandler.sendEmptyMessage(1);
         new Handler().postDelayed(new Runnable() {
@@ -81,6 +88,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 case 7: updateMessage("Eliminando Datos..."); break;
                 case 8: updateMessage("Verificando Version..."); break;
                 case 9: updateMessage("Solicitando Actualizacion..."); break;
+                case 10: updateMessage("Descargando Informacion..."); break;
             }
         }
     };
@@ -165,6 +173,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             myHandler.sendEmptyMessage(5);
             if(result.startsWith("Error:")){
                 myHandler.sendEmptyMessage(6);
+                Toast.makeText(SplashScreenActivity.this, result, Toast.LENGTH_LONG).show();
                 RedirectToHome();
             }else{
                 try
@@ -231,6 +240,17 @@ public class SplashScreenActivity extends AppCompatActivity {
                             Device.Account = JO.getString("Account");
                             Device.Name = JO.getString("Name");
                             db.updateDevice(Device);
+
+                            /*AsyncDownloadInfo AsyncDownloadInfo = new AsyncDownloadInfo(Device.DeviceID,"");
+                            AsyncDownloadInfo.execute("/Biometrics/");*/
+                            String Name = "";
+                            try{
+                                Name = URLEncoder.encode(" ", "utf-8");
+                            }catch (Exception ex) {
+                            }
+                            new AsyncDownloadInfo().execute("/Biometrics?Name=" + Name + "&DeviceID=" + Device.DeviceID);
+
+                            //new AsyncDownloadInfo(Device.DeviceID).execute("/Biometrics?DeviceID=" + Device.DeviceID);
                             RedirectToHome();
                         }
                         else {
@@ -241,6 +261,47 @@ public class SplashScreenActivity extends AppCompatActivity {
                 catch (Exception e) {
                     Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG).show();
                     RedirectToHome();
+                }
+            }
+        }
+    }
+
+    private class AsyncDownloadInfo extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            return ConnectionMethods.GET(SplashScreenActivity.this, urls[0]);
+        }
+        /* (non-Javadoc)
+         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            myHandler.sendEmptyMessage(10);
+            if(result.startsWith("Error:")){
+                DialogMethods.showInformationDialog(SplashScreenActivity.this, "No existen empleados registrados", result,null);
+            }else{
+                try
+                {
+                    JSONArray JR = new JSONArray(result);
+                    if(JR.length() > 0){
+                        db.deleteEmployees();
+                        for(int i=0;i < JR.length();i++)
+                        {
+                            JSONObject JO = (JSONObject)JR.getJSONObject(i);
+                            final int EmployeeID = JO.getInt("BiometricID");
+                            final String Name = JO.getString("Name");
+                            final String BarCode = JO.getString("PayrollNumber");
+                            final String DOB = JO.getString("DOB");
+                            Employee Employee = new Employee(EmployeeID, Name, BarCode, DOB);
+                            //final int FaceRegister = JO.getInt("FaceRegister");
+                            db.addEmployee(Employee);
+                            //Toast.makeText(SplashScreenActivity.this, EmployeeID + " - " + Name + " - " + BarCode + " - " + DOB, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                catch (Exception ex) {
+                    DialogMethods.showErrorDialog(SplashScreenActivity.this, "Ocurrio un error al momento de descargar los empleados. Info: " + ex.toString(),"Activity:SplashScreen | Method:AsyncDownloadInfo | Error:" + ex.toString());
                 }
             }
         }

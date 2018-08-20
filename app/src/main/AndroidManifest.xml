@@ -34,6 +34,7 @@
             android:name=".MainActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
             android:screenOrientation="landscape"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <meta-data
                 android:name="com.google.android.gms.vision.DEPENDENCIES"
